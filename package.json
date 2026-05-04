@@ -2,23 +2,16 @@
   "name": "cat",
   "version": "1.0.0",
   "description": "cat",
-  "homepage": "https://github.com/ryanvasq325/cat#readme",
-  "bugs": {
-    "url": "https://github.com/ryanvasq325/cat/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ryanvasq325/cat.git"
-  },
   "license": "MIT",
   "author": "RYAN DE SOUZA VASQUES",
-  "type": "commonjs",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "7.2.0",
@@ -35,6 +28,6 @@
     "sweetalert2": "11.26.24"
   },
   "devDependencies": {
-    "vite": "^8.0.10"
+    "vite": "8.0.10"
   }
 }
