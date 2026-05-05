@@ -19,11 +19,10 @@ final class Version20260504211434 extends AbstractMigration
         $table = $schema->createTable('federative_Unit');
 
         $table->addColumn('id',            'bigint', ['autoincrement' => true]);
+        $table->addColumn('id_pais',            'bigint', ['autoincrement' => true]);
         $table->addColumn('codigo', 'string',  ['length' => 255]);
         $table->addColumn('nome', 'string', ['length' => 255, 'notnull' => false]);
-        $table->addColumn('localizacao',      'string',  ['length' => 18]);
-        $table->addColumn('lingua', 'string', ['length' => 30, 'notnull' => false]);
-        $table->addColumn('moeda', 'date', ['notnull' => false]);
+        $table->addColumn('sigla',      'string',  ['length' => 18]);
         $table->addColumn('criado_em',     'datetime', ['default' => 'CURRENT_TIMESTAMP']);
         $table->addColumn('atualizado_em', 'datetime', ['default' => 'CURRENT_TIMESTAMP']);
 
