@@ -18,20 +18,21 @@ final class Version20260504211314 extends AbstractMigration
     {
         $table = $schema->createTable('country');
 
-        $table->addColumn('id',            'bigint', ['autoincrement' => true]);
-        $table->addColumn('codigo', 'string',  ['length' => 255]);
-        $table->addColumn('nome', 'string', ['length' => 255, 'notnull' => false]);
-        $table->addColumn('localizacao',      'string',  ['length' => 18]);
-        $table->addColumn('lingua', 'string', ['length' => 30, 'notnull' => false]);
-        $table->addColumn('moeda', 'date', ['notnull' => false]);
-        $table->addColumn('criado_em',     'datetime', ['default' => 'CURRENT_TIMESTAMP']);
-        $table->addColumn('atualizado_em', 'datetime', ['default' => 'CURRENT_TIMESTAMP']);
+        $table->addColumn('id',            'bigint',   ['autoincrement' => true, 'unsigned' => true, 'notnull' => true]);
+        $table->addColumn('codigo',        'string',   ['length' => 3,   'notnull' => true]);
+        $table->addColumn('nome',          'string',   ['length' => 255, 'notnull' => true]);
+        $table->addColumn('localizacao',   'string',   ['length' => 10,  'notnull' => false]);
+        $table->addColumn('lingua',        'string',   ['length' => 50,  'notnull' => false]);
+        $table->addColumn('moeda',         'string',   ['length' => 10,  'notnull' => false]);
+        $table->addColumn('criado_em',     'datetime', ['notnull' => true, 'default' => 'CURRENT_TIMESTAMP']);
+        $table->addColumn('atualizado_em', 'datetime', ['notnull' => true, 'default' => 'CURRENT_TIMESTAMP']);
 
         $table->setPrimaryKey(['id']);
+        $table->addUniqueIndex(['codigo']);
     }
 
     public function down(Schema $schema): void
     {
-         $schema->dropTable('country');
+        $schema->dropTable('country');
     }
 }
