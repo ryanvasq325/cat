@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
@@ -8,34 +8,59 @@
     {{ vite('resources/css/app.css') }}
 </head>
 
-<body>
-
-    <form id="form">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="card mt-3">
-                        <div class="card-header">Autenticação do Sistema</div>
-                        <div class="card-body">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="login" name="login"
-                                    placeholder="name@example.com">
-                                <label for="login">Login,CPF OU Telefone ou E-mail</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="senha" name="senha" placeholder="senha">
-                                <label for="senha">Informe sua senha</label>
+<body class="min-vh-100 d-flex align-items-center bg-light">
+    <form id="form" class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-primary text-white d-flex align-items-center gap-2 py-3">
+                        <i class="fa-solid fa-shield-halved fs-5"></i>
+                        <span class="fw-semibold">Autenticação do Sistema</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label for="login"
+                                class="form-label text-muted small fw-semibold text-uppercase">Login</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fa-regular fa-user text-secondary"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0" id="login" name="login"
+                                    placeholder="CPF, Telefone ou E-mail">
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button id="login" type="button" class="btn btn-success">Login</button>
-                            <button id="login" type="button" class="btn btn-primary">Login com Google</button>
+                        <div class="mb-1">
+                            <label for="senha"
+                                class="form-label text-muted small fw-semibold text-uppercase">Senha</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fa-solid fa-lock text-secondary"></i>
+                                </span>
+                                <input type="password" class="form-control border-start-0 ps-0" id="senha" name="senha"
+                                    placeholder="Informe sua senha">
+                            </div>
                         </div>
+                    </div>
+                    <div class="card-footer bg-white border-top p-4 d-grid gap-2">
+                        <button id="login" type="button"
+                            class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2">
+                            <i class="fa-solid fa-right-to-bracket"></i> Entrar
+                        </button>
+                        <div class="d-flex align-items-center gap-2 my-1">
+                            <hr class="flex-grow-1 m-0">
+                            <small class="text-muted">ou</small>
+                            <hr class="flex-grow-1 m-0">
+                        </div>
+                        <button id="loginGoogle" type="button"
+                            class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2">
+                            <i class="fa-brands fa-google"></i> Entrar com Google
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+
     {{ vite('resources/js/app.js') }}
 </body>
 
