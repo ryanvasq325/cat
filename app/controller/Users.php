@@ -47,7 +47,8 @@ final class Users extends Base
             'sobrenome' => $form['sobrenome'] ?? null,
             'cpf'       => $form['cpf']       ?? null,
             'rg'        => $form['rg']        ?? null,
-            'ativo'     => ($form['ativo'] ?? 'false') === 'true',
+            'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
+            'administrador' => (int)(($form['administrador'] ?? '') === 'true'),
         ];
         try {
             $IsInserted = \app\database\DB::connection()->insert('users', $FieldsAndValues);
@@ -74,7 +75,8 @@ final class Users extends Base
             'sobrenome' => $form['sobrenome'] ?? null,
             'cpf'       => $form['cpf']       ?? null,
             'rg'        => $form['rg']        ?? null,
-            'ativo'     => ($form['ativo'] ?? 'false') === 'true',
+            'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
+            'administrador' => (int)(($form['administrador'] ?? '') === 'true'),
         ];
         try {
             $IsUpdated = \app\database\DB::connection()->update('users', $FieldsAndValues, ['id' => $id]);
@@ -177,6 +179,7 @@ final class Users extends Base
                     $value['cpf']       ?? '',
                     $value['rg']        ?? '',
                     ($value['ativo'] == true) ? 'Ativo' : 'Inativo',
+                    ($value['administrador']) ? 'Administrador' : 'Comum',
                     (new \DateTime($value['criado_em']))->format('d/m/Y H:i:s'),
                     (new \DateTime($value['atualizado_em']))->format('d/m/Y H:i:s'),
                     "<td>

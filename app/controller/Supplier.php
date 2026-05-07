@@ -55,7 +55,7 @@ final class Supplier extends Base
             'cpf_cnpj'            => $form['numeroDocumento']    ?? null,
             'inscricao_estadual'  => $form['registroSecundario'] ?? null,
             'nascimento_fundacao' => $this->parseDate($form['dataRegistro'] ?? null),
-            'ativo'               => ($form['ativo'] ?? 'false') === 'true',
+            'ativo'               => (int)(($form['ativo'] ?? '') === 'true'),
         ];
         try {
             $IsInserted = \app\database\DB::connection()->insert('supplier', $FieldsAndValues);
@@ -82,7 +82,7 @@ final class Supplier extends Base
             'cpf_cnpj'            => $form['numeroDocumento']    ?? null,
             'inscricao_estadual'  => $form['registroSecundario'] ?? null,
             'nascimento_fundacao' => $this->parseDate($form['dataRegistro'] ?? null),
-            'ativo'               => ($form['ativo'] ?? 'false') === 'true',
+            'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
         ];
         try {
             $IsUpdated = \app\database\DB::connection()->update('supplier', $FieldsAndValues, ['id' => $id]);

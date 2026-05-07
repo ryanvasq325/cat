@@ -47,7 +47,7 @@ final class Enterprise extends Base
             'razao_social' => $form['nomeLegal']          ?? null,
             'cnpj'         => $form['numeroDocumento']    ?? null,
             'ie'           => $form['registroSecundario'] ?? null,
-            'ativo'        => ($form['ativo'] === 'true') ? true : false,
+            'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
         ];
         try {
             $IsInserted = \app\database\DB::connection()->insert('enterprise', $FieldsAndValues);
@@ -73,7 +73,7 @@ final class Enterprise extends Base
             'razao_social' => $form['nomeLegal']        ?? null,
             'cnpj'         => $form['numeroDocumento']  ?? null,
             'ie'           => $form['registroSecundario'] ?? null,
-            'ativo'        => ($form['ativo'] === 'true') ? true : false,
+            'ativo'        => (int)(($form['ativo']        ?? '') === 'true'),
         ];
         try {
             $IsUpdated = \app\database\DB::connection()->update('enterprise', $FieldsAndValues, ['id' => $id]);
