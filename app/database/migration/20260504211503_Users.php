@@ -19,11 +19,13 @@ final class Version20260504211503 extends AbstractMigration
         $table = $schema->createTable('users');
 
         $table->addColumn('id',            'bigint',  ['autoincrement' => true, 'unsigned' => true, 'notnull' => true]);
-        $table->addColumn('nome',          'string',  ['length' => 255, 'notnull' => true]);
-        $table->addColumn('sobrenome',     'string',  ['length' => 255, 'notnull' => false]);
-        $table->addColumn('cpf',           'string',  ['length' => 14,  'notnull' => false]);
-        $table->addColumn('rg',            'string',  ['length' => 20,  'notnull' => false]);
+        $table->addColumn('nome',          'text',  ['length' => 255, 'notnull' => true]);
+        $table->addColumn('sobrenome',     'text',  ['length' => 255, 'notnull' => false]);
+        $table->addColumn('cpf',           'text',  ['length' => 14,  'notnull' => false]);
+        $table->addColumn('rg',            'text',  ['length' => 20,  'notnull' => false]);
+        $table->addColumn('senha',         'text',  ['length' => 20,  'notnull' => false]);
         $table->addColumn('ativo',         'boolean', ['default' => true,  'notnull' => true]);
+        $table->addColumn('administrador',         'boolean', ['default' => false,  'notnull' => true]);
         $table->addColumn('excluido',      'boolean', ['default' => false, 'notnull' => true]);
         $table->addColumn('criado_em',     'datetime', ['notnull' => true, 'default' => 'CURRENT_TIMESTAMP']);
         $table->addColumn('atualizado_em', 'datetime', ['notnull' => true, 'default' => 'CURRENT_TIMESTAMP']);

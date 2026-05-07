@@ -1,12 +1,20 @@
-{% extends 'layouts/main.html' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block main %}
-<form id="form">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {{ vite('resources/css/app.css') }}
+</head>
+
+<body>
+
+    <form id="form">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card mt-3">
                         <div class="card-header">Autenticação do Sistema</div>
                         <div class="card-body">
                             <div class="form-floating mb-3">
@@ -15,8 +23,7 @@
                                 <label for="login">Login,CPF OU Telefone ou E-mail</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="senha" name="senha"
-                                    placeholder="senha">
+                                <input type="password" class="form-control" id="senha" name="senha" placeholder="senha">
                                 <label for="senha">Informe sua senha</label>
                             </div>
                         </div>
@@ -28,9 +35,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</form>
-{% endblock %}
-{% block script %}
-<script></script>
-{% endblock %}
+    </form>
+    {{ vite('resources/js/app.js') }}
+</body>
+
+</html>
