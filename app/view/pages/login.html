@@ -9,6 +9,7 @@
 </head>
 
 <body class="min-vh-100 d-flex align-items-center bg-light">
+
     <form id="form" class="container py-4">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-8 col-md-6 col-lg-4">
@@ -19,19 +20,17 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="mb-3">
-                            <label for="login"
-                                class="form-label text-muted small fw-semibold text-uppercase">Login</label>
+                            <label for="login" class="form-label text-muted small fw-semibold text-uppercase">Login</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0">
                                     <i class="fa-regular fa-user text-secondary"></i>
                                 </span>
                                 <input type="text" class="form-control border-start-0 ps-0" id="login" name="login"
-                                    placeholder="CPF, Telefone ou E-mail">
+                                    placeholder="Informe seu CPF">
                             </div>
                         </div>
                         <div class="mb-1">
-                            <label for="senha"
-                                class="form-label text-muted small fw-semibold text-uppercase">Senha</label>
+                            <label for="senha" class="form-label text-muted small fw-semibold text-uppercase">Senha</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0">
                                     <i class="fa-solid fa-lock text-secondary"></i>
@@ -42,7 +41,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white border-top p-4 d-grid gap-2">
-                        <button id="login" type="button"
+                        <button id="Login" type="button"
                             class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-solid fa-right-to-bracket"></i> Entrar
                         </button>
@@ -55,13 +54,75 @@
                             class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-brands fa-google"></i> Entrar com Google
                         </button>
+                        <button id="preCadastro" type="button"
+                            class="btn btn-outline-primary btn-lg d-flex align-items-center justify-content-center gap-2"
+                            data-bs-toggle="modal" data-bs-target="#pre-cadastro">
+                            <i class="fa-solid fa-user-plus"></i> Criar conta
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
+    <!-- Modal Pré-cadastro -->
+    <div class="modal fade" id="pre-cadastro" tabindex="-1" aria-labelledby="modalPreCadastroLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalPreCadastroLabel">
+                        <i class="fa-solid fa-user-plus me-2"></i> Criar conta
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formPreCadastro">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-semibold text-uppercase">Nome *</label>
+                            <input type="text" class="form-control" name="nome" placeholder="Informe seu nome">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-semibold text-uppercase">Sobrenome</label>
+                            <input type="text" class="form-control" name="sobrenome" placeholder="Informe seu sobrenome">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-semibold text-uppercase">CPF *</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-semibold text-uppercase">RG</label>
+                            <input type="text" class="form-control" name="rg" placeholder="Informe seu RG">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-semibold text-uppercase">E-mail *</label>
+                            <input type="email" class="form-control" name="email" placeholder="Informe seu e-mail">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-semibold text-uppercase">Celular</label>
+                            <input type="text" class="form-control" id="celular" name="celular" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-semibold text-uppercase">WhatsApp</label>
+                            <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label text-muted small fw-semibold text-uppercase">Senha *</label>
+                            <input type="password" class="form-control" name="senhaCadastro" placeholder="Crie uma senha">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-top p-3">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button id="Cadastrar" type="button" class="btn btn-primary d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Cadastrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{ vite('resources/js/app.js') }}
+    {{ vite('resources/js/pages/login.js') }}
 </body>
 
 </html>
