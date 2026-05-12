@@ -18,23 +18,22 @@ final class Users extends Base
 
     public function details($request, $response, $args)
     {
-        $id     = $args['id'] ?? null;
+        $id = $args['id'] ?? null;
         $action = ($id === null) ? 'c' : 'e';
-        $user   = [];
-
+        $user = [];
         if (!is_null($id)) {
-            $qb   = \app\database\DB::select('*')->from('users');
+            $qb = \app\database\DB::select('*')->from('users');
+
             $user = $qb
                 ->where('id = ' . $qb->createPositionalParameter($id, \Doctrine\DBAL\ParameterType::INTEGER))
                 ->fetchAssociative();
         }
-
         return $this->getTwig()
             ->render($response, $this->setView('users'), [
                 'titulo' => 'Detalhes do usuário',
                 'id'     => $id,
                 'action' => $action,
-                'user'   => $user,
+                'user'   => $user
             ])
             ->withHeader('Content-Type', 'text/html')
             ->withStatus(200);
@@ -43,27 +42,21 @@ final class Users extends Base
     public function insert($request, $response)
     {
         $form = $request->getParsedBody();
-
-        if (empty($form['senha'])) {
-            return $this->json($response, ['status' => false, 'msg' => 'Por favor informe a senha.', 'id' => 0], 403);
-        }
-
         $FieldsAndValues = [
-            'nome'          => $form['nome'],
-            'sobrenome'     => $form['sobrenome']     ?? null,
-            'cpf'           => $form['cpf']           ?? null,
-            'rg'            => $form['rg']            ?? null,
-            'senha'         => password_hash($form['senha'], PASSWORD_DEFAULT),
+            'nome'      => $form['nome'],
+            'sobrenome' => $form['sobrenome'] ?? null,
+            'cpf'       => $form['cpf']       ?? null,
+            'rg'        => $form['rg']        ?? null,
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
             'administrador' => (int)(($form['administrador'] ?? '') === 'true'),
         ];
-
         try {
             $IsInserted = \app\database\DB::connection()->insert('users', $FieldsAndValues);
             if (!$IsInserted) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsInserted, 'id' => 0], 500);
             }
             $id = \app\database\DB::connection()->lastInsertId();
+
             return $this->json($response, ['status' => true, 'msg' => 'Usuário salvo com sucesso!', 'id' => $id], 201);
         } catch (\Exception $e) {
             return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
@@ -73,26 +66,18 @@ final class Users extends Base
     public function update($request, $response)
     {
         $form = $request->getParsedBody();
-        $id   = $form['id'] ?? null;
-
+        $id = $form['id'] ?? null;
         if (is_null($id)) {
-            return $this->json($response, ['status' => false, 'msg' => 'Por favor informe o ID do registro.', 'id' => 0], 403);
+            return $this->json($response, ['status' => false, 'msg' => 'Por favor informe o ID do registro', 'id' => 0], 403);
         }
-
         $FieldsAndValues = [
-            'nome'          => $form['nome'],
-            'sobrenome'     => $form['sobrenome']     ?? null,
-            'cpf'           => $form['cpf']           ?? null,
-            'rg'            => $form['rg']            ?? null,
+            'nome'      => $form['nome'],
+            'sobrenome' => $form['sobrenome'] ?? null,
+            'cpf'       => $form['cpf']       ?? null,
+            'rg'        => $form['rg']        ?? null,
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
             'administrador' => (int)(($form['administrador'] ?? '') === 'true'),
         ];
-
-        # Só atualiza a senha se uma nova foi informada
-        if (!empty($form['senha'])) {
-            $FieldsAndValues['senha'] = password_hash($form['senha'], PASSWORD_DEFAULT);
-        }
-
         try {
             $IsUpdated = \app\database\DB::connection()->update('users', $FieldsAndValues, ['id' => $id]);
             if (!$IsUpdated) {
@@ -107,13 +92,12 @@ final class Users extends Base
     public function delete($request, $response)
     {
         $form = $request->getParsedBody();
-        $id   = $form['id'] ?? null;
-
+        $id = $form['id'] ?? null;
         if (is_null($id) || $id === '') {
-            return $this->json($response, ['status' => false, 'msg' => 'Informe o código do usuário.', 'id' => 0], 403);
+            return $this->json($response, ['status' => false, 'msg' => 'Informe o código do usuário', 'id' => 0], 403);
         }
-
         try {
+            // Soft delete — marca como excluído em vez de remover fisicamente
             $IsDeleted = \app\database\DB::connection()->update('users', ['excluido' => true], ['id' => $id]);
             if (!$IsDeleted) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsDeleted, 'id' => $id], 403);
@@ -126,7 +110,8 @@ final class Users extends Base
 
     public function listingdata($request, $response)
     {
-        $form   = $request->getParsedBody();
+        $form = $request->getParsedBody();
+
         $term   = $form['search']['value'] ?? null;
         $start  = (int) ($form['start']  ?? 0);
         $length = (int) ($form['length'] ?? 10);
@@ -141,9 +126,10 @@ final class Users extends Base
             6 => 'atualizado_em',
         ];
 
-        $posField   = (isset($form['order'][0]['column']) && isset($columns[(int) $form['order'][0]['column']]))
+        $posField = (isset($form['order'][0]['column']) && isset($columns[(int) $form['order'][0]['column']]))
             ? (int) $form['order'][0]['column']
             : 0;
+
         $orderType  = strtoupper($form['order'][0]['dir'] ?? 'DESC');
         $orderType  = in_array($orderType, ['ASC', 'DESC'], true) ? $orderType : 'DESC';
         $orderField = $columns[$posField];
@@ -160,6 +146,7 @@ final class Users extends Base
 
             if (!is_null($term) && $term !== '') {
                 $query->setParameter('term', '%' . $term . '%');
+
                 $query->andWhere(
                     $query->expr()->or(
                         'CAST(id AS TEXT) ILIKE :term',
@@ -173,7 +160,9 @@ final class Users extends Base
                 );
             }
 
-            $filteredRecords = (int) (clone $query)->select('COUNT(*)')->fetchOne();
+            $filteredRecords = (int) (clone $query)
+                ->select('COUNT(*)')
+                ->fetchOne();
 
             $users = $query
                 ->orderBy($orderField, $orderType)
@@ -189,18 +178,18 @@ final class Users extends Base
                     $value['sobrenome'] ?? '',
                     $value['cpf']       ?? '',
                     $value['rg']        ?? '',
-                    ($value['ativo'])         ? 'Ativo'          : 'Inativo',
-                    ($value['administrador']) ? 'Administrador'  : 'Comum',
+                    ($value['ativo'] == true) ? 'Ativo' : 'Inativo',
+                    ($value['administrador']) ? 'Administrador' : 'Comum',
                     (new \DateTime($value['criado_em']))->format('d/m/Y H:i:s'),
                     (new \DateTime($value['atualizado_em']))->format('d/m/Y H:i:s'),
                     "<td>
-                        <a class='btn btn-sm btn-warning' href='/usuario/detalhes/" . $value['id'] . "'>
-                            <i class='fa-solid fa-pen-to-square'></i> Editar
-                        </a>
-                        <button type='button' class='btn btn-sm btn-danger' onclick='ShowModal(" . $value['id'] . ");'>
-                            <i class='fa-solid fa-trash'></i> Excluir
-                        </button>
-                    </td>",
+            <a class='btn btn-sm btn-warning' href='/usuario/detalhes/" . $value['id'] . "'>
+                <i class='fa-solid fa-pen-to-square'></i> Editar
+            </a>
+            <button type='button' class='btn btn-sm btn-danger' onclick='ShowModal(" . $value['id'] . ");'>
+                <i class='fa-solid fa-trash'></i> Excluir
+            </button>
+        </td>",
                 ];
             }
 
@@ -209,7 +198,6 @@ final class Users extends Base
                 'recordsFiltered' => $filteredRecords,
                 'data'            => $rows,
             ], 200);
-
         } catch (\Exception $e) {
             return $this->json($response, [
                 'status' => false,
