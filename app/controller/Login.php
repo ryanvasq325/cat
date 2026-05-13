@@ -152,6 +152,27 @@ final class Login extends Base
             return $this->json($response, ['status' => false, 'msg' => 'Erro inesperado. Tente novamente.', 'id' => 0], 500);
         }
     }
+    public function logout($request, $response)
+    {
+        # Destroi todos os dados da sessão
+        $_SESSION = [];
+        session_destroy();
+
+        # Remove o cookie auth_token
+        setcookie('auth_token', '', [
+            'expires'  => time() - 3600,
+            'path'     => '/',
+            'domain'   => $_SERVER['HTTP_HOST'],
+            'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
+
+        # Redireciona para o login
+        return $response
+            ->withHeader('Location', '/login')
+            ->withStatus(302);
+    }
 
     public function preRegister($request, $response)
     {
