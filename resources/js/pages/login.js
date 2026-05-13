@@ -1,6 +1,8 @@
 import Swal from "sweetalert2";
 import Validate from "../components/validate.js";
 import Request from "../components/requests.js";
+Inputmask('999.999.999-99').mask('#cpf');
+Inputmask('(99) 9999-9999').mask('#telefone');
 
 const mdPreRegister     = document.getElementById('mdPreRegister');
 const buttonPreRegister = document.getElementById('buttonPreRegister');

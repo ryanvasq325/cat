@@ -20,7 +20,7 @@ $app->group('/cliente', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       app\controller\Customer::class . ':update');
     $group->post('/delete',       app\controller\Customer::class . ':delete');
     $group->post('/listingdata',  app\controller\Customer::class . ':listingdata');
-}); #->add(app\middleware\Middleware::api());
+})->add(app\middleware\Middleware::web());
 
 $app->group('/empresa', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->get('/lista',         app\controller\Enterprise::class . ':list');
@@ -30,7 +30,7 @@ $app->group('/empresa', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       app\controller\Enterprise::class . ':update');
     $group->post('/delete',       app\controller\Enterprise::class . ':delete');
     $group->post('/listingdata',  app\controller\Enterprise::class . ':listingdata');
-}); #->add(app\middleware\Middleware::api());
+})->add(app\middleware\Middleware::web());
 
 $app->group('/fornecedor', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->get('/lista',         app\controller\Supplier::class . ':list');
@@ -40,7 +40,7 @@ $app->group('/fornecedor', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       app\controller\Supplier::class . ':update');
     $group->post('/delete',       app\controller\Supplier::class . ':delete');
     $group->post('/listingdata',  app\controller\Supplier::class . ':listingdata');
-}); #->add(app\middleware\Middleware::api());
+})->add(app\middleware\Middleware::web());
 
 $app->group('/usuario', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->get('/lista',         app\controller\Users::class . ':list');
@@ -50,4 +50,4 @@ $app->group('/usuario', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       app\controller\Users::class . ':update');
     $group->post('/delete',       app\controller\Users::class . ':delete');
     $group->post('/listingdata',  app\controller\Users::class . ':listingdata');
-}); #->add(app\middleware\Middleware::api());
+})->add(app\middleware\Middleware::web());

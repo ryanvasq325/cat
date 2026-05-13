@@ -24,7 +24,7 @@ final class Version20260504211503 extends AbstractMigration
         $table->addColumn('cpf',           'text',  ['length' => 14,  'notnull' => false]);
         $table->addColumn('rg',            'text',  ['length' => 20,  'notnull' => false]);
         $table->addColumn('senha',         'text',  ['length' => 255,  'notnull' => false]);
-        $table->addColumn('ativo',         'boolean', ['default' => true,  'notnull' => true]);
+        $table->addColumn('ativo',         'boolean', ['default' => false,  'notnull' => true]);
         $table->addColumn('administrador', 'boolean', ['default' => false,  'notnull' => true]);
         $table->addColumn('excluido',      'boolean', ['default' => false, 'notnull' => true]);
         $table->addColumn('criado_em',     'datetime', ['notnull' => true, 'default' => 'CURRENT_TIMESTAMP']);

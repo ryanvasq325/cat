@@ -154,11 +154,9 @@ final class Login extends Base
     }
     public function logout($request, $response)
     {
-        # Destroi todos os dados da sessão
         $_SESSION = [];
         session_destroy();
 
-        # Remove o cookie auth_token
         setcookie('auth_token', '', [
             'expires'  => time() - 3600,
             'path'     => '/',
@@ -168,7 +166,6 @@ final class Login extends Base
             'samesite' => 'Lax',
         ]);
 
-        # Redireciona para o login
         return $response
             ->withHeader('Location', '/login')
             ->withStatus(302);
