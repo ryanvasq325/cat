@@ -16,10 +16,6 @@ $app->addRoutingMiddleware();
 
 $debug = ($_ENV['APP_DEBUG'] ?? 'false') === 'true';
 
-// Inicia a sessão uma única vez para toda a aplicação
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
 $app->addErrorMiddleware($debug, $debug, $debug);
 
