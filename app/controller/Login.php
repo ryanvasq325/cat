@@ -283,7 +283,6 @@ final class Login extends Base
             $qb->where('email = ' . $qb->createNamedParameter($email));
             $user = $qb->fetchAssociative();
 
-            # Usuário não encontrado no sistema
             if (!$user) {
                 return $this->json($response, [
                     'status' => false,
@@ -292,16 +291,16 @@ final class Login extends Base
                 ], 404);
             }
 
-            # Usuário encontrado mas não está ativo
+            # Usuário encontrado mas não está ativo — ativa automaticamente no primeiro login Google
             if (!$user['ativo']) {
-                return $this->json($response, [
-                    'status' => false,
-                    'msg'    => 'Por enquanto você ainda não está autorizado, por favor aguarde...',
-                    'id'     => 0,
-                ], 403);
+                \app\database\DB::connection()->update(
+                    'users',
+                    ['ativo' => true, 'atualizado_em' => date('Y-m-d H:i:s')],
+                    ['id' => $user['id']],
+                );
+                $user['ativo'] = true;
             }
 
-            # Usuário ativo — cria sessão
             session_regenerate_id(true);
 
             unset($user['senha']);
@@ -331,7 +330,6 @@ final class Login extends Base
             $_SESSION['user']['sessao_criada_em'] = (new \DateTime())->format('Y-m-d H:i:s');
             $_SESSION['user']['sessao_expira_em'] = (new \DateTime())->modify("+{$lifetime} seconds")->format('Y-m-d H:i:s');
 
-            # Redireciona para home ou adm dependendo se é administrador
             $destino = $user['administrador'] ? '/adm' : '/home';
 
             return $response
