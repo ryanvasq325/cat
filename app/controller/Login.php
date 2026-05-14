@@ -257,40 +257,86 @@ final class Login extends Base
     {
         $form = $request->getParsedBody();
 
-        $credential = $form['credential'] ?? null;
-
-        $form_g_csrf_token = $form['g_csrf_token'] ?? null;
-
+        $credential        = $form['credential']    ?? null;
+        $form_g_csrf_token = $form['g_csrf_token']  ?? null;
         $cookie_g_csrf_token = $_COOKIE['g_csrf_token'] ?? null;
-
-        $google_client_id = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
+        $google_client_id  = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
 
         if (is_null($credential) || is_null($form_g_csrf_token) || is_null($cookie_g_csrf_token)) {
             throw new \InvalidArgumentException('Credential do Google ausente');
         }
 
-        var_dump($google_client_id);
         $client = new \Google\Client(['client_id' => $google_client_id]);
 
         try {
             $payload = $client->verifyIdToken($credential);
-            # Dados do usuário extraídos do payload validado
-            $google_id   = $payload['sub'];                                                    // ID único do Google (immutable)
+
+            $google_id   = $payload['sub'];
             $email       = $payload['email'];
-            $given_name  = $payload['given_name']  ?? '';                                      // Nome
-            $family_name = $payload['family_name'] ?? '';                                      // Sobrenome
-            $full_name   = $payload['name']        ?? trim("{$given_name} {$family_name}");    // Nome completo (fallback)
+            $given_name  = $payload['given_name']  ?? '';
+            $family_name = $payload['family_name'] ?? '';
+            $full_name   = $payload['name']        ?? trim("{$given_name} {$family_name}");
             $picture_url = $payload['picture']     ?? null;
 
-            #Com base no e-mail, recuperar os dados de do usuário 
-            #utilizando o seguinte script select * from vw_user where email = $email
+            # Busca o usuário na vw_user pelo e-mail do Google
+            $qb   = \app\database\DB::select('*')->from('vw_user');
+            $qb->where('email = ' . $qb->createNamedParameter($email));
+            $user = $qb->fetchAssociative();
 
-            #Se retornar dados deve ser verificado o valor do campo ativo, caso seja false,
-            # Retorne a seguinte mensagem: Por enquanto você ainda não esta autorizado, por favor aguarde...
+            # Usuário não encontrado no sistema
+            if (!$user) {
+                return $this->json($response, [
+                    'status' => false,
+                    'msg'    => 'Nenhuma conta encontrada com este e-mail do Google. Faça o pré-cadastro.',
+                    'id'     => 0,
+                ], 404);
+            }
 
-            #Caso o valor seja true criar os dados da sessão do usuário e direcionar para pagina de /home ou /adm
+            # Usuário encontrado mas não está ativo
+            if (!$user['ativo']) {
+                return $this->json($response, [
+                    'status' => false,
+                    'msg'    => 'Por enquanto você ainda não está autorizado, por favor aguarde...',
+                    'id'     => 0,
+                ], 403);
+            }
 
+            # Usuário ativo — cria sessão
+            session_regenerate_id(true);
 
+            unset($user['senha']);
+            $_SESSION['user']           = $user;
+            $_SESSION['user']['logado'] = true;
+
+            $lifetime = (int) (ini_get('session.gc_maxlifetime') ?: 3600);
+
+            $payload_jwt = [
+                'iat' => time(),
+                'exp' => time() + $lifetime,
+                'sub' => (string) $user['id'],
+            ];
+
+            $jwt      = \Firebase\JWT\JWT::encode($payload_jwt, SECRET_KEY, 'HS256');
+            $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+
+            setcookie('auth_token', $jwt, [
+                'expires'  => time() + $lifetime,
+                'path'     => '/',
+                'domain'   => $_SERVER['HTTP_HOST'],
+                'secure'   => $isSecure,
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]);
+
+            $_SESSION['user']['sessao_criada_em'] = (new \DateTime())->format('Y-m-d H:i:s');
+            $_SESSION['user']['sessao_expira_em'] = (new \DateTime())->modify("+{$lifetime} seconds")->format('Y-m-d H:i:s');
+
+            # Redireciona para home ou adm dependendo se é administrador
+            $destino = $user['administrador'] ? '/adm' : '/home';
+
+            return $response
+                ->withHeader('Location', $destino)
+                ->withStatus(302);
         } catch (\Throwable $e) {
             throw new \RuntimeException('Falha na verificação do ID Token do Google: ' . $e->getMessage(), 0, $e);
         }
