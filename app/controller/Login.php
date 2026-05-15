@@ -252,31 +252,61 @@ final class Login extends Base
                 'id'     => 0,
             ], 500);
         }
-    }
-    public function google($request, $response)
+    }public function google($request, $response)
     {
         $form = $request->getParsedBody();
 
-        $credential        = $form['credential']    ?? null;
-        $form_g_csrf_token = $form['g_csrf_token']  ?? null;
+        $credential = $form['credential'] ?? null;
+
+        $form_g_csrf_token = $form['g_csrf_token'] ?? null;
+
         $cookie_g_csrf_token = $_COOKIE['g_csrf_token'] ?? null;
-        $google_client_id  = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
+
+        $google_client_id = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
 
         if (is_null($credential) || is_null($form_g_csrf_token) || is_null($cookie_g_csrf_token)) {
             throw new \InvalidArgumentException('Credential do Google ausente');
         }
 
-        $client = new \Google\Client(['client_id' => $google_client_id]);
-
         try {
-            $payload = $client->verifyIdToken($credential);
 
-            $google_id   = $payload['sub'];
-            $email       = $payload['email'];
-            $given_name  = $payload['given_name']  ?? '';
-            $family_name = $payload['family_name'] ?? '';
-            $full_name   = $payload['name']        ?? trim("{$given_name} {$family_name}");
-            $picture_url = $payload['picture']     ?? null;
+
+            $provider = new \League\OAuth2\Client\Provider\Google([
+                'clientId'     => $google_client_id,
+                'clientSecret' => '',
+                'redirectUri'  => '',
+            ]);
+
+            $httpResponse = $provider->getHttpClient()->request(
+                'GET',
+                'https://oauth2.googleapis.com/tokeninfo?id_token=' . urlencode($credential),
+                ['timeout' => 3, 'connect_timeout' => 2]
+            );
+
+            $claims = json_decode((string) $httpResponse->getBody(), true, flags: JSON_THROW_ON_ERROR);
+
+            $nome = $claims['given_name'];
+            $sobrenome = $claims['family_name'];
+            $nomecompleto = $claims['name'];
+            $email = $claims['email'];
+            $foto = $claims['picture'];
+
+
+            echo "<pre>";
+            var_dump($nome, $sobrenome, $nomecompleto, $email, $foto);
+            # Atividade anterior dia 14-05-2026
+
+            # 1. Finalizar o processo de autenticação 
+
+            # 2. Opção de sair do sistema onde deve ser destruído a sessão e direcionado para pagina de login novamente
+            #_________________________________________________________________________________________________________
+            #Com base no e-mail, recuperar os dados de do usuário 
+            #utilizando o seguinte script select * from vw_user where email = $email
+
+            #Se retornar dados deve ser verificado o valor do campo ativo, caso seja false,
+            # Retorne a seguinte mensagem: Por enquanto você ainda não esta autorizado, por favor aguarde...
+
+            #Caso o valor seja true criar os dados da sessão do usuário e direcionar para pagina de /home ou /adm
 
             # Busca o usuário na vw_user pelo e-mail do Google
             $qb   = \app\database\DB::select('*')->from('vw_user');
