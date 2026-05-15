@@ -252,25 +252,27 @@ final class Login extends Base
                 'id'     => 0,
             ], 500);
         }
-    }public function google($request, $response)
+    }
+    public function google($request, $response)
     {
         $form = $request->getParsedBody();
 
-        $credential = $form['credential'] ?? null;
-
-        $form_g_csrf_token = $form['g_csrf_token'] ?? null;
-
+        $credential        = $form['credential']    ?? null;
+        $form_g_csrf_token = $form['g_csrf_token']  ?? null;
         $cookie_g_csrf_token = $_COOKIE['g_csrf_token'] ?? null;
+        $google_client_id  = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
 
-        $google_client_id = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
-
+        // Valida presença dos dados obrigatórios
         if (is_null($credential) || is_null($form_g_csrf_token) || is_null($cookie_g_csrf_token)) {
-            throw new \InvalidArgumentException('Credential do Google ausente');
+            return $this->json($response, ['status' => false, 'msg' => 'Dados do Google ausentes.', 'id' => 0], 400);
+        }
+
+        // Valida o CSRF token do Google (cookie deve bater com o campo do formulário)
+        if (!hash_equals($cookie_g_csrf_token, $form_g_csrf_token)) {
+            return $this->json($response, ['status' => false, 'msg' => 'Token CSRF inválido.', 'id' => 0], 403);
         }
 
         try {
-
-
             $provider = new \League\OAuth2\Client\Provider\Google([
                 'clientId'     => $google_client_id,
                 'clientSecret' => '',
@@ -285,34 +287,23 @@ final class Login extends Base
 
             $claims = json_decode((string) $httpResponse->getBody(), true, flags: JSON_THROW_ON_ERROR);
 
-            $nome = $claims['given_name'];
-            $sobrenome = $claims['family_name'];
-            $nomecompleto = $claims['name'];
-            $email = $claims['email'];
-            $foto = $claims['picture'];
+            // Valida que o token foi emitido para o seu app
+            if (($claims['aud'] ?? '') !== $google_client_id) {
+                return $this->json($response, ['status' => false, 'msg' => 'Token inválido.', 'id' => 0], 403);
+            }
 
+            $email = $claims['email'] ?? null;
 
-            echo "<pre>";
-            var_dump($nome, $sobrenome, $nomecompleto, $email, $foto);
-            # Atividade anterior dia 14-05-2026
+            if (is_null($email)) {
+                return $this->json($response, ['status' => false, 'msg' => 'E-mail não disponível na conta Google.', 'id' => 0], 400);
+            }
 
-            # 1. Finalizar o processo de autenticação 
-
-            # 2. Opção de sair do sistema onde deve ser destruído a sessão e direcionado para pagina de login novamente
-            #_________________________________________________________________________________________________________
-            #Com base no e-mail, recuperar os dados de do usuário 
-            #utilizando o seguinte script select * from vw_user where email = $email
-
-            #Se retornar dados deve ser verificado o valor do campo ativo, caso seja false,
-            # Retorne a seguinte mensagem: Por enquanto você ainda não esta autorizado, por favor aguarde...
-
-            #Caso o valor seja true criar os dados da sessão do usuário e direcionar para pagina de /home ou /adm
-
-            # Busca o usuário na vw_user pelo e-mail do Google
-            $qb   = \app\database\DB::select('*')->from('vw_user');
+            // Busca o usuário na vw_user pelo e-mail do Google
+            $qb = \app\database\DB::select('*')->from('vw_user');
             $qb->where('email = ' . $qb->createNamedParameter($email));
             $user = $qb->fetchAssociative();
 
+            // Nenhuma conta encontrada com esse e-mail
             if (!$user) {
                 return $this->json($response, [
                     'status' => false,
@@ -321,16 +312,16 @@ final class Login extends Base
                 ], 404);
             }
 
-            # Usuário encontrado mas não está ativo — ativa automaticamente no primeiro login Google
+            // Conta encontrada mas ainda não aprovada pelo administrador
             if (!$user['ativo']) {
-                \app\database\DB::connection()->update(
-                    'users',
-                    ['ativo' => true, 'atualizado_em' => date('Y-m-d H:i:s')],
-                    ['id' => $user['id']],
-                );
-                $user['ativo'] = true;
+                return $this->json($response, [
+                    'status' => false,
+                    'msg'    => 'Por enquanto você ainda não está autorizado, por favor aguarde...',
+                    'id'     => 0,
+                ], 403);
             }
 
+            // Login válido — cria a sessão
             session_regenerate_id(true);
 
             unset($user['senha']);
@@ -360,13 +351,19 @@ final class Login extends Base
             $_SESSION['user']['sessao_criada_em'] = (new \DateTime())->format('Y-m-d H:i:s');
             $_SESSION['user']['sessao_expira_em'] = (new \DateTime())->modify("+{$lifetime} seconds")->format('Y-m-d H:i:s');
 
+            // Direciona para /adm se administrador, ou /home para usuários comuns
             $destino = $user['administrador'] ? '/adm' : '/home';
 
             return $response
                 ->withHeader('Location', $destino)
                 ->withStatus(302);
         } catch (\Throwable $e) {
-            throw new \RuntimeException('Falha na verificação do ID Token do Google: ' . $e->getMessage(), 0, $e);
+            error_log('[auth][GOOGLE] ' . $e->getMessage());
+            return $this->json($response, [
+                'status' => false,
+                'msg'    => 'Falha na autenticação com o Google. Tente novamente.',
+                'id'     => 0,
+            ], 500);
         }
     }
 }
