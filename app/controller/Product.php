@@ -48,6 +48,7 @@ final class Product extends Base
             'unidade'         => $form['unidade']    ?? null,
             'preco_compra'           => $form['preco_compra'] ?? null,
             'preco_venda'         => $form['preco_venda'] ?? null,
+            'descricao'         => $form['descricao'] ?? null,
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
         ];
         try {
@@ -176,8 +177,6 @@ final class Product extends Base
                     $value['preco_compra']           ?? '',
                     $value['preco_venda']           ?? '',
                     ($value['ativo'] == true) ? 'Ativo' : 'Inativo',
-                    (new \DateTime($value['criado_em']))->format('d/m/Y H:i:s'),
-                    (new \DateTime($value['atualizado_em']))->format('d/m/Y H:i:s'),
                     "<td>
             <a class='btn btn-sm btn-warning' href='/produto/detalhes/" . $value['id'] . "'>
                 <i class='fa-solid fa-pen-to-square'></i> Editar
