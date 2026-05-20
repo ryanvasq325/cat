@@ -11,12 +11,12 @@ test('insertProduct com dados validos retorna 200 com status true', function () 
         ->createRequest('POST', '/produto/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nome' => 'Baleia',
-            'codigo_barra' => '234234',
-            'unidade' => '5',
-            'preco_compra' => '1000.00',
+            'nome' => 'Carne de calango',
+            'codigo_barra' => '1234567890123',
+            'unidade' => 'kg',
+            'preco_compra' => '1500.00',
             'preco_venda' => '2000.00',
-            'descricao' => 'Carne de baleia',
+            'descricao' => 'fresca e saborosa',
             'ativo' => 'true'
         ]);
 
@@ -28,8 +28,7 @@ test('insertProduct com dados validos retorna 200 com status true', function () 
 
 
     $json = json_decode($result->getBody()->getContents(), true);
-    #Capturamos o codigo de resposta e o status do json
-    #Foi criado.
+
     expect($result->getStatusCode())->toBe(201);
 
     expect($json['status'])->toBeTrue();

@@ -18,7 +18,7 @@ final class Version20260504211314 extends AbstractMigration
     {
         $table = $schema->createTable('country');
 
-        $table->addColumn('id',            'bigint',   ['autoincrement' => true, 'unsigned' => true, 'notnull' => true]);
+        $table->addColumn('id',            'bigint',   ['autoincrement' => true, 'notnull' => true]);
         $table->addColumn('codigo',        'string',   ['length' => 3,   'notnull' => true]);
         $table->addColumn('nome',          'string',   ['length' => 255, 'notnull' => true]);
         $table->addColumn('localizacao',   'string',   ['length' => 10,  'notnull' => false]);

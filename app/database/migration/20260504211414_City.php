@@ -18,8 +18,8 @@ final class Version20260504211414 extends AbstractMigration
     {
         $table = $schema->createTable('city');
 
-        $table->addColumn('id',            'bigint',   ['autoincrement' => true, 'unsigned' => true, 'notnull' => true]);
-        $table->addColumn('id_uf',         'bigint',   ['unsigned' => true, 'notnull' => true]);
+        $table->addColumn('id',            'bigint',   ['autoincrement' => true,  'notnull' => true]);
+        $table->addColumn('id_uf',         'bigint',   [ 'notnull' => true]);
         $table->addColumn('codigo',        'string',   ['length' => 10,  'notnull' => true]);
         $table->addColumn('nome',          'string',   ['length' => 255, 'notnull' => true]);
         $table->addColumn('criado_em',     'datetime', ['notnull' => true, 'default' => 'CURRENT_TIMESTAMP']);

@@ -18,8 +18,8 @@ final class Version20260504211315 extends AbstractMigration
     {
         $table = $schema->createTable('federative_unit');
 
-        $table->addColumn('id',            'bigint', ['autoincrement' => true, 'unsigned' => true, 'notnull' => true]);
-        $table->addColumn('id_pais',       'bigint', ['unsigned' => true, 'notnull' => true]);
+        $table->addColumn('id',            'bigint', ['autoincrement' => true, 'notnull' => true]);
+        $table->addColumn('id_pais',       'bigint', ['notnull' => true]);
         $table->addColumn('codigo',        'string', ['length' => 10,  'notnull' => true]);
         $table->addColumn('nome',          'string', ['length' => 255, 'notnull' => true]);
         $table->addColumn('sigla',         'string', ['length' => 5,   'notnull' => true]);

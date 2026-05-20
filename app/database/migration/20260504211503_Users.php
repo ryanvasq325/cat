@@ -18,7 +18,7 @@ final class Version20260504211503 extends AbstractMigration
     {
         $table = $schema->createTable('users');
 
-        $table->addColumn('id',            'bigint',  ['autoincrement' => true, 'unsigned' => true, 'notnull' => true]);
+        $table->addColumn('id',            'bigint',  ['autoincrement' => true, 'notnull' => true]);
         $table->addColumn('nome',          'text',  ['length' => 255, 'notnull' => true]);
         $table->addColumn('sobrenome',     'text',  ['length' => 255, 'notnull' => false]);
         $table->addColumn('cpf',           'text',  ['length' => 14,  'notnull' => false]);

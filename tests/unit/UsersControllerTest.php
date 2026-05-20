@@ -11,10 +11,10 @@ test('insertUsers com dados validos retorna 200 com status true', function () {
         ->createRequest('POST', '/usuario/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nome' => 'mulambo',
-            'sobrenome' => 'jubilado',
-            'cpf' => '786.098.365-21',
-            'rg' => '8765',
+            'nome' => 'Jubileo',
+            'sobrenome' => 'se nao sabe nem eu',
+            'cpf' => '123.456.789-00',
+            'rg' => '12345678',
             'ativo' => 'true'
         ]);
 
@@ -39,10 +39,10 @@ test('updateUsers com dados validos retorna 201 com status true', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/insert')
         ->withParsedBody([
-            'nome'      => 'olokokinho',
-            'sobrenome' => 'meu',
-            'cpf'       => '534.121.531-21',
-            'rg'        => '3424',
+            'nome'      => 'faustao',
+            'sobrenome' => 'olokomeu',
+            'cpf'       => '125.987.234-21',
+            'rg'        => '9999',
             'ativo'     => 'true',
         ]);
 
@@ -57,10 +57,10 @@ test('updateUsers com dados validos retorna 201 com status true', function () {
         ->createRequest('POST', '/usuario/update')
         ->withParsedBody([
             'id'        => $id,
-            'nome'      => 'dmulambo',
-            'sobrenome' => 'caloso',
-            'cpf'       => '123.121.234-21',
-            'rg'        => '9999',
+            'nome'      => 'cassio',
+            'sobrenome' => 'queixadas',
+            'cpf'       => '123.324.231-21',
+            'rg'        => '234234',
             'ativo'     => 'true',
         ]);
 
@@ -93,14 +93,13 @@ test('updateUsers sem ID retorna 403 com status false', function () {
 
 
 test('deleteUsers com ID valido retorna 200 com status true', function () {
-    // Insere um usuário para deletar
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/insert')
         ->withParsedBody([
-            'nome'      => 'giovanni',
-            'sobrenome' => 'olave',
-            'cpf'       => '323.212.12-12',
-            'rg'        => '5555',
+            'nome'      => 'EAGORAGIOVANI',
+            'sobrenome' => 'SECORRE',
+            'cpf'       => '123.456.789-00',
+            'rg'        => '12345678',
             'ativo'     => 'true',
         ]);
 
@@ -170,7 +169,7 @@ test('listingdata com termo de busca retorna resultado filtrado', function () {
             'start'  => 0,
             'length' => 10,
             'order'  => [['column' => '1', 'dir' => 'ASC']],
-            'search' => ['value' => 'Chuck'],
+            'search' => ['value' => 'Jubileo'],
         ]);
 
     $response = (new ResponseFactory())->createResponse();

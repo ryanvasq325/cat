@@ -11,11 +11,11 @@ test('insertCustomer com dados validos retorna 200 com status true', function ()
         ->createRequest('POST', '/customer/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nomeExibicao' => 'Calango',
-            'nomeLegal' => 'E CIA',
-            'numeroDocumento' => '342.234.252-32',
-            'registroSecundario' => '2434',
-            'dataRegistro' => '12/09/1990',
+            'nomeExibicao' => 'Kalango',
+            'nomeLegal' => 'E GAMBIARRAS',
+            'numeroDocumento' => '895.142.909-78',
+            'registroSecundario' => '42342',
+            'dataRegistro' => '23/12/1111',
             'ativo' => 'true'
         ]);
 

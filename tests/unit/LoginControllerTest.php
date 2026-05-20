@@ -11,13 +11,13 @@ test('preRegister com dados validos retorna 200 com status true', function () {
         ->createRequest('POST', '/authentication/preregister')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nome' => 'Ryan',
-            'sobrenome' => 'Souza Vasques',
-            'cpf' => '999.999.999-99',
-            'rg' => '98765',
-            'senhaCadastro' => '123456',
-            'email' => 'ryansouza@gmail.com',
-            'telefone' => '6999999999'
+            'nome' => 'django',
+            'sobrenome' => 'calangudo',
+            'cpf' => '654.231.238-11',
+            'rg' => '0987654321',
+            'senhaCadastro' => '75352',
+            'email' => 'django@gmail.com',
+            'telefone' => '5365634567',
         ]);
 
     $response = (new ResponseFactory())->createResponse();
@@ -34,7 +34,7 @@ test('preRegister com dados validos retorna 200 com status true', function () {
 
     expect($json['status'])->toBeTrue();
 
-    expect($json['msg'])->toContain('Usuário criado com sucesso');
+    expect($json['msg'])->toContain('Pré-cadastro realizado com sucesso!');
 
 
 });

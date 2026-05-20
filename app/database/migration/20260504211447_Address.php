@@ -18,11 +18,11 @@ final class Version20260504211447 extends AbstractMigration
     {
         $table = $schema->createTable('address');
 
-        $table->addColumn('id',            'bigint',  ['autoincrement' => true, 'unsigned' => true, 'notnull' => true]);
-        $table->addColumn('id_city',       'bigint',  ['unsigned' => true, 'notnull' => false]);
-        $table->addColumn('id_customer',   'bigint',  ['unsigned' => true, 'notnull' => false]);
-        $table->addColumn('id_supplier',   'bigint',  ['unsigned' => true, 'notnull' => false]);
-        $table->addColumn('id_enterprise', 'bigint',  ['unsigned' => true, 'notnull' => false]);
+        $table->addColumn('id',            'bigint',  ['autoincrement' => true,  'notnull' => true]);
+        $table->addColumn('id_city',       'bigint',  [ 'notnull' => false]);
+        $table->addColumn('id_customer',   'bigint',  [ 'notnull' => false]);
+        $table->addColumn('id_supplier',   'bigint',  [ 'notnull' => false]);
+        $table->addColumn('id_enterprise', 'bigint',  [ 'notnull' => false]);
         $table->addColumn('logradouro',    'string',  ['length' => 255, 'notnull' => true]);
         $table->addColumn('bairro',        'string',  ['length' => 100, 'notnull' => true]);
         $table->addColumn('cep',           'string',  ['length' => 10,  'notnull' => true]);
