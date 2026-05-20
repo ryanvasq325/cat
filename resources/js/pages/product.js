@@ -5,6 +5,34 @@ const Action = document.getElementById('action');
 const Id = document.getElementById('id');
 const Insert = document.getElementById('insert');
 
+Inputmask("currency", {
+    radixPoint: ",",
+    inputtype: "text",
+    prefix: "R$ ",
+    autoGroup: true,
+    groupSeparator: ".",
+    rightAlign: false,
+    onBeforeMask: function (value) {
+        return String(value).replace(".", ",");
+    },
+}).mask("#preco_venda, #preco_compra");
+
+function limparInputsParaEnvio() {
+    ["#preco_venda", "#preco_compra"].forEach(seletor => {
+        const campo = document.querySelector(seletor);
+        if (campo && campo.inputmask) {
+            let valorPuro = campo.inputmask.unmaskedvalue();
+            valorPuro = valorPuro.replace(",", ".");
+
+            campo.inputmask.remove();
+            campo.value = valorPuro;
+        }
+    });
+}
+
+function restaurarMascaras() {
+    Inputmask("currency", inputmaskConfig).mask("#preco_venda, #preco_compra");
+}
 async function applyChanges() {
     $('button').prop('disabled', true);
     const IsValid = Validate.SetForm('form').Validate();
@@ -18,11 +46,16 @@ async function applyChanges() {
         });
         return;
     }
+
+
     const requests = new Requests();
     try {
+        limparInputsParaEnvio();
         const response = (Action.value !== 'e')
             ? await requests.setForm('form').post('/produto/insert')
             : await requests.setForm('form').post('/produto/update');
+
+        
         if (!response.status) {
             Swal.fire({
                 icon: 'error',
@@ -31,6 +64,7 @@ async function applyChanges() {
                 timer: 3000,
                 timerProgressBar: true,
             });
+            restaurarMascaras();
             return;
         }
         const baseUrl = window.location.origin;
@@ -47,6 +81,7 @@ async function applyChanges() {
             });
             return;
         }
+
         Action.value = 'e';
         Id.value = response.id;
         window.history.pushState({}, '', redirectUrl);
@@ -58,6 +93,7 @@ async function applyChanges() {
             timerProgressBar: true,
         });
     } catch (error) {
+        restaurarMascaras();
         Swal.fire({
             icon: 'error',
             title: 'Erro',
@@ -72,6 +108,4 @@ async function applyChanges() {
 
 Insert.addEventListener('click', async () => {
     await applyChanges();
-    
-
 });

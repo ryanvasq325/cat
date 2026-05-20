@@ -11,10 +11,10 @@ test('insertUsers com dados validos retorna 200 com status true', function () {
         ->createRequest('POST', '/usuario/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nome' => 'Chuck',
-            'sobrenome' => 'Norris',
-            'cpf' => '098.654.096-69',
-            'rg' => '5675',
+            'nome' => 'mulambo',
+            'sobrenome' => 'jubilado',
+            'cpf' => '786.098.365-21',
+            'rg' => '8765',
             'ativo' => 'true'
         ]);
 
@@ -39,10 +39,10 @@ test('updateUsers com dados validos retorna 201 com status true', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/insert')
         ->withParsedBody([
-            'nome'      => 'calangudo',
-            'sobrenome' => 'soberano',
-            'cpf'       => '111.222.333-44',
-            'rg'        => '1234',
+            'nome'      => 'olokokinho',
+            'sobrenome' => 'meu',
+            'cpf'       => '534.121.531-21',
+            'rg'        => '3424',
             'ativo'     => 'true',
         ]);
 
@@ -57,9 +57,9 @@ test('updateUsers com dados validos retorna 201 com status true', function () {
         ->createRequest('POST', '/usuario/update')
         ->withParsedBody([
             'id'        => $id,
-            'nome'      => 'drango',
-            'sobrenome' => 'alama',
-            'cpf'       => '111.222.333-44',
+            'nome'      => 'dmulambo',
+            'sobrenome' => 'caloso',
+            'cpf'       => '123.121.234-21',
             'rg'        => '9999',
             'ativo'     => 'true',
         ]);
@@ -97,9 +97,9 @@ test('deleteUsers com ID valido retorna 200 com status true', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/insert')
         ->withParsedBody([
-            'nome'      => 'Baianin',
-            'sobrenome' => 'maua',
-            'cpf'       => '999.888.777-66',
+            'nome'      => 'giovanni',
+            'sobrenome' => 'olave',
+            'cpf'       => '323.212.12-12',
             'rg'        => '5555',
             'ativo'     => 'true',
         ]);

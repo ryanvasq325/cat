@@ -4,6 +4,7 @@ import Requests from '../components/requests.js';
 const Id = document.getElementById('id');
 const table = DataTables.SetId('table-product').setRequestVariables([]).post('/produto/listingdata');
 
+
 async function deleteProduct() {
     const requests = new Requests();
     try {
