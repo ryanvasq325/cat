@@ -71,7 +71,7 @@ final class Users extends Base
             return $this->json($response, ['status' => false, 'msg' => 'Por favor informe o ID do registro', 'id' => 0], 403);
         }
         $FieldsAndValues = [
-            'nome'      => $form['nome'],
+            'nome'      => $form['nome'], 
             'sobrenome' => $form['sobrenome'] ?? null,
             'cpf'       => $form['cpf']       ?? null,
             'rg'        => $form['rg']        ?? null,
