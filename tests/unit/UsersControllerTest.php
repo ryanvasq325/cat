@@ -11,10 +11,10 @@ test('insertUsers com dados validos retorna 200 com status true', function () {
         ->createRequest('POST', '/usuario/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nome' => 'Jubileo',
-            'sobrenome' => 'se nao sabe nem eu',
-            'cpf' => '123.456.789-00',
-            'rg' => '12345678',
+            'nome' => 'lionel',
+            'sobrenome' => 'oanao',
+            'cpf' => '753.967.532-09',
+            'rg' => '4546676',
             'ativo' => 'true'
         ]);
 
@@ -39,10 +39,10 @@ test('updateUsers com dados validos retorna 201 com status true', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/insert')
         ->withParsedBody([
-            'nome'      => 'faustao',
-            'sobrenome' => 'olokomeu',
-            'cpf'       => '125.987.234-21',
-            'rg'        => '9999',
+            'nome'      => 'messiasano',
+            'sobrenome' => 'oet',
+            'cpf'       => '876.341.423-34',
+            'rg'        => '56365432',
             'ativo'     => 'true',
         ]);
 
@@ -57,10 +57,10 @@ test('updateUsers com dados validos retorna 201 com status true', function () {
         ->createRequest('POST', '/usuario/update')
         ->withParsedBody([
             'id'        => $id,
-            'nome'      => 'cassio',
-            'sobrenome' => 'queixadas',
-            'cpf'       => '123.324.231-21',
-            'rg'        => '234234',
+            'nome'      => 'marcianooet',
+            'sobrenome' => 'anaozudo',
+            'cpf'       => '876.341.423-34',
+            'rg'        => '56365432',
             'ativo'     => 'true',
         ]);
 
@@ -96,10 +96,10 @@ test('deleteUsers com ID valido retorna 200 com status true', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/insert')
         ->withParsedBody([
-            'nome'      => 'EAGORAGIOVANI',
-            'sobrenome' => 'SECORRE',
-            'cpf'       => '123.456.789-00',
-            'rg'        => '12345678',
+            'nome'      => 'oliso',
+            'sobrenome' => 'ingress',
+            'cpf'       => '098.578.766-56',
+            'rg'        => '5576633',
             'ativo'     => 'true',
         ]);
 
@@ -169,7 +169,7 @@ test('listingdata com termo de busca retorna resultado filtrado', function () {
             'start'  => 0,
             'length' => 10,
             'order'  => [['column' => '1', 'dir' => 'ASC']],
-            'search' => ['value' => 'Jubileo'],
+            'search' => ['value' => 'lionel'],
         ]);
 
     $response = (new ResponseFactory())->createResponse();

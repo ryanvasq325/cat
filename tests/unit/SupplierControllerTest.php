@@ -11,11 +11,11 @@ test('insertSupplier com dados validos retorna 200 com status true', function ()
         ->createRequest('POST', '/supplier/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nomeExibicao' => 'Caçador de Calangos',
-            'nomeLegal' => 'Caçador de Calangos LTDA',
-            'numeroDocumento' => '12345678900',
-            'registroSecundario' => '12345678901234',
-            'dataRegistro' => '2024-01-01',
+            'nomeExibicao' => 'FIFA LTDA',
+            'nomeLegal' => 'tamo jogando tamo jogando LTDA',
+            'numeroDocumento' => '654.321.238-11',
+            'registroSecundario' => '234.567.890-1',
+            'dataRegistro' => '2020-02-09',
             'ativo' => 'true'
         ]);
 

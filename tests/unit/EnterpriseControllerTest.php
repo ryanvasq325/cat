@@ -11,10 +11,10 @@ test('insertEnterprise com dados validos retorna 200 com status true', function 
         ->createRequest('POST', '/enterprise/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nomeExibicao' => 'rangos',
-            'nomeLegal' => 'd CIA',
-            'numeroDocumento' => '654.231.238-11',
-            'registroSecundario' => '0987654321',
+            'nomeExibicao' => 'Verstappen',
+            'nomeLegal' => 'dan dan dan LTD',
+            'numeroDocumento' => '932.109.876-00',
+            'registroSecundario' => '9654321',
             'ativo' => 'true'
         ]);
 

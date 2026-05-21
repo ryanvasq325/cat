@@ -11,11 +11,11 @@ test('insertCustomer com dados validos retorna 200 com status true', function ()
         ->createRequest('POST', '/customer/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nomeExibicao' => 'Kalango',
-            'nomeLegal' => 'E GAMBIARRAS',
-            'numeroDocumento' => '895.142.909-78',
-            'registroSecundario' => '42342',
-            'dataRegistro' => '23/12/1111',
+            'nomeExibicao' => 'Lemans',
+            'nomeLegal' => 'Hamiltons',
+            'numeroDocumento' => '432.109.876-00',
+            'registroSecundario' => '12365432',
+            'dataRegistro' => '05/03/1999',
             'ativo' => 'true'
         ]);
 
@@ -27,8 +27,7 @@ test('insertCustomer com dados validos retorna 200 com status true', function ()
 
 
     $json = json_decode($result->getBody()->getContents(), true);
-    #Capturamos o codigo de resposta e o status do json
-    #Foi criado.
+    
     expect($result->getStatusCode())->toBe(201);
 
     expect($json['status'])->toBeTrue();

@@ -11,12 +11,12 @@ test('insertProduct com dados validos retorna 200 com status true', function () 
         ->createRequest('POST', '/produto/insert')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nome' => 'Carne de calango',
-            'codigo_barra' => '1234567890123',
-            'unidade' => 'kg',
-            'preco_compra' => '1500.00',
-            'preco_venda' => '2000.00',
-            'descricao' => 'fresca e saborosa',
+            'nome' => 'Bola',
+            'codigo_barra' => '202607130001',
+            'unidade' => 'cheia',
+            'preco_compra' => '30.00',
+            'preco_venda' => '50.00',
+            'descricao' => 'mucha',
             'ativo' => 'true'
         ]);
 

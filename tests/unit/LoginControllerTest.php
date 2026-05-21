@@ -11,13 +11,13 @@ test('preRegister com dados validos retorna 200 com status true', function () {
         ->createRequest('POST', '/authentication/preregister')
         ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
         ->withParsedBody([
-            'nome' => 'django',
-            'sobrenome' => 'calangudo',
-            'cpf' => '654.231.238-11',
-            'rg' => '0987654321',
-            'senhaCadastro' => '75352',
-            'email' => 'django@gmail.com',
-            'telefone' => '5365634567',
+            'nome' => 'Hamilton',
+            'sobrenome' => 'logado',
+            'cpf' => '879.677.710-00',
+            'rg' => '543.567.890-1',
+            'senhaCadastro' => '232323',
+            'email' => 'taslogado@gmail.com',
+            'telefone' => '4321-4321',
         ]);
 
     $response = (new ResponseFactory())->createResponse();
