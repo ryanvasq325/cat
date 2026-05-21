@@ -6,6 +6,12 @@ declare(strict_types=1);
 use Slim\Psr7\Factory\RequestFactory;
 use Slim\Psr7\Factory\ResponseFactory;
 
+
+
+/*Testa a criação de um usuário. 
+Envia um POST com nome, sobrenome, CPF, RG e ativo. 
+Espera que a resposta retorne status HTTP 201,
+e que o campo status como true e a mensagem "Usuário salvo com sucesso".*/
 test('insertUsers com dados validos retorna 200 com status true', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/insert')
@@ -35,6 +41,12 @@ test('insertUsers com dados validos retorna 200 com status true', function () {
 
 
 });
+
+/*
+Testa a atualização de um usuário. Primeiro insere um usuário para obter o ID gerado, 
+depois faz um POST de update com esse ID e novos dados. 
+Espera HTTP 201, status: true e a mensagem "Usuário alterado com sucesso!".
+*/
 test('updateUsers com dados validos retorna 201 com status true', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/insert')
@@ -73,7 +85,10 @@ test('updateUsers com dados validos retorna 201 com status true', function () {
     expect($json['status'])->toBeTrue();
     expect($json['msg'])->toContain('Usuário alterado com sucesso!');
 });
-
+/*
+Testa o erro de update sem informar o ID. Envia um POST de update sem o campo id. 
+Espera HTTP 403, status: false e a mensagem "Por favor informe o ID do registro".
+*/
 test('updateUsers sem ID retorna 403 com status false', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/update')
@@ -90,7 +105,11 @@ test('updateUsers sem ID retorna 403 com status false', function () {
     expect($json['status'])->toBeFalse();
     expect($json['msg'])->toContain('Por favor informe o ID do registro');
 });
-
+/*
+Testa a remoção de um usuário existente. Primeiro insere um usuário, 
+captura o ID e depois faz o delete com esse ID. Espera HTTP 200, 
+status: true e a mensagem "Usuário removido com sucesso!".
+*/
 
 test('deleteUsers com ID valido retorna 200 com status true', function () {
     $request = (new RequestFactory())
@@ -124,6 +143,10 @@ test('deleteUsers com ID valido retorna 200 com status true', function () {
     expect($json['msg'])->toContain('Usuário removido com sucesso!');
 });
 
+/*
+Testa o erro de delete sem informar o ID. Envia um POST de delete com body vazio. 
+Espera HTTP 403, status: false e a mensagem "Informe o código do usuário".
+*/
 test('deleteUsers sem ID retorna 403 com status false', function () {
     $request = (new RequestFactory())
         ->createRequest('POST', '/usuario/delete')
@@ -138,7 +161,11 @@ test('deleteUsers sem ID retorna 403 com status false', function () {
     expect($json['status'])->toBeFalse();
     expect($json['msg'])->toContain('Informe o código do usuário');
 });
-
+/*
+Testa a listagem paginada de usuários. 
+Envia parâmetros típicos de um DataTable (start, length, order, search vazio).
+ Espera HTTP 200 e que o JSON contenha as chaves recordsTotal, recordsFiltered e data (array).
+*/
 
 test('listingdata retorna estrutura correta com status 200', function () {
     $request = (new RequestFactory())
@@ -161,6 +188,11 @@ test('listingdata retorna estrutura correta com status 200', function () {
     expect($json)->toHaveKey('data');
     expect($json['data'])->toBeArray();
 });
+/*
+Testa a busca/filtro na listagem. Igual ao anterior, mas com search: 'lionel'. 
+Espera HTTP 200, recordsFiltered como inteiro e data como array 
+verificando que o filtro funciona sem erros.
+*/
 
 test('listingdata com termo de busca retorna resultado filtrado', function () {
     $request = (new RequestFactory())
@@ -181,3 +213,10 @@ test('listingdata com termo de busca retorna resultado filtrado', function () {
     expect($json['recordsFiltered'])->toBeInt();
     expect($json['data'])->toBeArray();
 });
+
+/*
+todos os testes seguem o fluxo 
+monta request → chama o controller → 
+lê o JSON da response → 
+valida status HTTP e campos do JSON.
+*/
