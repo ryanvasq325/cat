@@ -2,7 +2,7 @@ services:
   # Servidor web Nginx que recebe as requisições HTTP
   nginx:
     # Imagem oficial estável do Nginx sobre Alpine 3.23
-    image: nginx:1.30-alpine3.23
+    image: nginx:1.31.0-alpine3.23
 
     # Nome fixo do container facilita identificação e debug
     container_name: app_nginx
