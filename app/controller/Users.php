@@ -50,6 +50,8 @@ final class Users extends Base
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
             'administrador' => (int)(($form['administrador'] ?? '') === 'true'),
         ];
+
+
         try {
             $IsInserted = \app\database\DB::connection()->insert('users', $FieldsAndValues);
             if (!$IsInserted) {
