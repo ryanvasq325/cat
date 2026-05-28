@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\controller;
+namespace App\Controller;
 
 final class Users extends Base
 {
@@ -125,6 +125,7 @@ final class Users extends Base
             5 => 'criado_em',
             6 => 'atualizado_em',
         ];
+
 
         $posField = (isset($form['order'][0]['column']) && isset($columns[(int) $form['order'][0]['column']]))
             ? (int) $form['order'][0]['column']

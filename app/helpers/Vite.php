@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace app\helpers;
+namespace App\Helpers;
 
 final class Vite
 {
 
     # Arquivo criado pelo 'vite dev' — presença indica servidor de desenvolvimento ativo
-    private const HOT  = __DIR__ . '/../../public/hot';
+    private const HOT  = __DIR__ . '/../../Public/hot';
     # Manifest gerado pelo 'npm run build' — mapeia entrypoints para arquivos com hash
-    private const MAN  = __DIR__ . '/../../public/assets/manifest.json';
+    private const MAN  = __DIR__ . '/../../Public/assets/manifest.json';
     # Prefixo das URLs públicas dos assets servidos pelo Nginx em produção
     private const BASE = '/assets/';
 

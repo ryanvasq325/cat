@@ -3,12 +3,12 @@
 /node_modules
 /tmp
 /logs
-/docker/postgres/storage
-/docker/redis/storage
+/Docker/postgres/storage
+/Docker/redis/storage
 .env
 # Node.js / Vite
 /node_modules
 # Arquivo sentinela do dev server (nunca versionar)
-/public/hot
+/Public/hot
 # Build output do Vite — gerado pelo CI/CD a partir de resources/
-/public/assets
+/Public/assets

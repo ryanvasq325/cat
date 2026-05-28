@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\controller;
+namespace App\Controller;
 
 final class Customer extends Base
 {
@@ -56,6 +56,9 @@ final class Customer extends Base
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsInserted, 'id' => 0], 500);
             }
             $id = \app\database\DB::select('id')->from('customer')->fetchAssociative();
+
+            
+
 
             return $this->json($response, ['status' => true, 'msg' => 'Salvo com sucesso!', 'id' => $id['id']], 201);
         } catch (\Exception $e) {
