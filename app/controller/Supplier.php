@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Dontroller;
 
 final class Supplier extends Base
 {
@@ -30,7 +30,7 @@ final class Supplier extends Base
         $action = ($id === null) ? 'c' : 'e';
         $supplier = [];
         if (!is_null($id)) {
-            $qb = \app\database\DB::select('*')->from('supplier');
+            $qb = \App\Database\DB::select('*')->from('supplier');
             $supplier = $qb
                 ->where('id = ' . $qb->createPositionalParameter($id, \Doctrine\DBAL\ParameterType::INTEGER))
                 ->fetchAssociative();
@@ -58,11 +58,11 @@ final class Supplier extends Base
             'ativo'               => (int)(($form['ativo'] ?? '') === 'true'),
         ];
         try {
-            $IsInserted = \app\database\DB::connection()->insert('supplier', $FieldsAndValues);
+            $IsInserted = \App\Database\DB::connection()->insert('supplier', $FieldsAndValues);
             if (!$IsInserted) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsInserted, 'id' => 0], 500);
             }
-            $id = \app\database\DB::connection()->lastInsertId();
+            $id = \App\Database\DB::connection()->lastInsertId();
             return $this->json($response, ['status' => true, 'msg' => 'Fornecedor salvo com sucesso!', 'id' => $id], 201);
         } catch (\Exception $e) {
             return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $e->getMessage(), 'id' => 0], 500);
@@ -85,7 +85,7 @@ final class Supplier extends Base
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
         ];
         try {
-            $IsUpdated = \app\database\DB::connection()->update('supplier', $FieldsAndValues, ['id' => $id]);
+            $IsUpdated = \App\Database\DB::connection()->update('supplier', $FieldsAndValues, ['id' => $id]);
             if (!$IsUpdated) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsUpdated, 'id' => 0], 403);
             }
@@ -103,7 +103,7 @@ final class Supplier extends Base
             return $this->json($response, ['status' => false, 'msg' => 'Informe o código do fornecedor', 'id' => 0], 403);
         }
         try {
-            $IsDeleted = \app\database\DB::connection()->delete('supplier', ['id' => $id]);
+            $IsDeleted = \App\Database\DB::connection()->delete('supplier', ['id' => $id]);
             if (!$IsDeleted) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsDeleted, 'id' => $id], 403);
             }
@@ -139,11 +139,11 @@ final class Supplier extends Base
         $orderField = $columns[$posField];
 
         try {
-            $totalRecords = (int) \app\database\DB::select('COUNT(*)')
+            $totalRecords = (int) \App\Database\DB::select('COUNT(*)')
                 ->from('supplier')
                 ->fetchOne();
 
-            $query = \app\database\DB::select('*')->from('supplier');
+            $query = \App\Database\DB::select('*')->from('supplier');
 
             if (!is_null($term) && $term !== '') {
                 $query->setParameter('term', '%' . $term . '%');

@@ -22,7 +22,7 @@ final class Users extends Base
         $action = ($id === null) ? 'c' : 'e';
         $user = [];
         if (!is_null($id)) {
-            $qb = \app\database\DB::select('*')->from('users');
+            $qb = \App\Database\DB::select('*')->from('users');
 
             $user = $qb
                 ->where('id = ' . $qb->createPositionalParameter($id, \Doctrine\DBAL\ParameterType::INTEGER))
@@ -53,11 +53,11 @@ final class Users extends Base
 
 
         try {
-            $IsInserted = \app\database\DB::connection()->insert('users', $FieldsAndValues);
+            $IsInserted = \App\Database\DB::connection()->insert('users', $FieldsAndValues);
             if (!$IsInserted) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsInserted, 'id' => 0], 500);
             }
-            $id = \app\database\DB::connection()->lastInsertId();
+            $id = \App\Database\DB::connection()->lastInsertId();
 
             return $this->json($response, ['status' => true, 'msg' => 'Usuário salvo com sucesso!', 'id' => $id], 201);
         } catch (\Exception $e) {
@@ -81,7 +81,7 @@ final class Users extends Base
             'administrador' => (int)(($form['administrador'] ?? '') === 'true'),
         ];
         try {
-            $IsUpdated = \app\database\DB::connection()->update('users', $FieldsAndValues, ['id' => $id]);
+            $IsUpdated = \App\Database\DB::connection()->update('users', $FieldsAndValues, ['id' => $id]);
             if (!$IsUpdated) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsUpdated, 'id' => 0], 403);
             }
@@ -100,7 +100,7 @@ final class Users extends Base
         }
         try {
             // Soft delete — marca como excluído em vez de remover fisicamente
-            $IsDeleted = \app\database\DB::connection()->update('users', ['excluido' => true], ['id' => $id]);
+            $IsDeleted = \App\Database\DB::connection()->update('users', ['excluido' => true], ['id' => $id]);
             if (!$IsDeleted) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsDeleted, 'id' => $id], 403);
             }
@@ -138,12 +138,12 @@ final class Users extends Base
         $orderField = $columns[$posField];
 
         try {
-            $totalRecords = (int) \app\database\DB::select('COUNT(*)')
+            $totalRecords = (int) \App\Database\DB::select('COUNT(*)')
                 ->from('users')
                 ->where('excluido = false')
                 ->fetchOne();
 
-            $query = \app\database\DB::select('*')
+            $query = \App\Database\DB::select('*')
                 ->from('users')
                 ->where('excluido = false');
 

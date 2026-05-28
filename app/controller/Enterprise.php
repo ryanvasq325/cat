@@ -22,7 +22,7 @@ final class Enterprise extends Base
         $action = ($id === null) ? 'c' : 'e';
         $enterprise = [];
         if (!is_null($id)) {
-            $qb = \app\database\DB::select('*')->from('enterprise');
+            $qb = \App\Database\DB::select('*')->from('enterprise');
 
             $enterprise = $qb
                 ->where('id = ' . $qb->createPositionalParameter($id, \Doctrine\DBAL\ParameterType::INTEGER))
@@ -50,11 +50,11 @@ final class Enterprise extends Base
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
         ];
         try {
-            $IsInserted = \app\database\DB::connection()->insert('enterprise', $FieldsAndValues);
+            $IsInserted = \App\Database\DB::connection()->insert('enterprise', $FieldsAndValues);
             if (!$IsInserted) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsInserted, 'id' => 0], 500);
             }
-            $id = \app\database\DB::connection()->lastInsertId();
+            $id = \App\Database\DB::connection()->lastInsertId();
 
             return $this->json($response, ['status' => true, 'msg' => 'Salvo com sucesso!', 'id' => $id], 201);
         } catch (\Exception $e) {
@@ -76,7 +76,7 @@ final class Enterprise extends Base
             'ativo'        => (int)(($form['ativo']        ?? '') === 'true'),
         ];
         try {
-            $IsUpdated = \app\database\DB::connection()->update('enterprise', $FieldsAndValues, ['id' => $id]);
+            $IsUpdated = \App\Database\DB::connection()->update('enterprise', $FieldsAndValues, ['id' => $id]);
             if (!$IsUpdated) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsUpdated, 'id' => 0], 403);
             }
@@ -93,7 +93,7 @@ final class Enterprise extends Base
             return $this->json($response, ['status' => false, 'msg' => 'Informe o código do cliente', 'id' => 0], 403);
         }
         try {
-            $IsDeleted = \app\database\DB::connection()->delete('enterprise', ['id' => $id]);
+            $IsDeleted = \App\Database\DB::connection()->delete('enterprise', ['id' => $id]);
             if (!$IsDeleted) {
                 return $this->json($response, ['status' => false, 'msg' => 'Restrição: ' . $IsDeleted, 'id' => $id], 403);
             }
@@ -131,12 +131,12 @@ final class Enterprise extends Base
 
         try {
             # Total geral DataTables: recordsTotal
-            $totalRecords = (int) \app\database\DB::select('COUNT(*)')
+            $totalRecords = (int) \App\Database\DB::select('COUNT(*)')
                 ->from('enterprise')
                 ->fetchOne();
 
             # Query principal com WHERE opcional
-            $query = \app\database\DB::select('*')->from('enterprise');
+            $query = \App\Database\DB::select('*')->from('enterprise');
 
             if (!is_null($term) && $term !== '') {
                 $query->setParameter('term', '%' . $term . '%');

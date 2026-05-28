@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const HOT_FILE = resolve(__dirname, 'Public/hot');
+const HOT_FILE = resolve(__dirname, 'public/hot');
 
 function writeHotFilePlugin() {
     return {
@@ -38,20 +38,20 @@ export default defineConfig(({ command }) => ({
     base: command === 'build' ? '/assets/' : '/',
     build: {
         manifest: 'manifest.json',
-        outDir: 'Public/assets',
+        outDir: 'public/assets',
         emptyOutDir: true,
         sourcemap: false,
         cssCodeSplit: true,
         rolldownOptions: {
             input: {
                 // CSS como entry INDEPENDENTE — não acoplado ao JS
-                style: resolve(__dirname, 'Resources/css/app.css'),
+                style: resolve(__dirname, 'resources/css/app.css'),
                 // JS principal — sem nenhum import de CSS dentro dele
-                app: resolve(__dirname, 'Resources/js/app.js'),
+                app: resolve(__dirname, 'resources/js/app.js'),
                 // Entries por página
-                'pages/customer': resolve(__dirname, 'Resources/js/pages/customer.js'),
-                'pages/list-customer': resolve(__dirname, 'Resources/js/pages/list-customer.js'),
-                'pages/login': resolve(__dirname, 'Resources/js/pages/login.js')
+                'pages/customer': resolve(__dirname, 'resources/js/pages/customer.js'),
+                'pages/list-customer': resolve(__dirname, 'resources/js/pages/list-customer.js'),
+                'pages/login': resolve(__dirname, 'resources/js/pages/login.js')
             },
             output: {
                 entryFileNames: '[name]-[hash].js',

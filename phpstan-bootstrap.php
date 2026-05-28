@@ -8,7 +8,7 @@ if (is_file($autoload)) {
 }
 
 if (!defined('DIR_VIEWS')) {
-    define('DIR_VIEWS', __DIR__ . '/App/Views/');
+    define('DIR_VIEWS', __DIR__ . '/App/view/');
 }
 
 if (!defined('EXT_VIEWS')) {

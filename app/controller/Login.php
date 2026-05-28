@@ -35,7 +35,7 @@ final class Login extends Base
         }
         try {
             # Começa a montar a query: SELECT * FROM vw_user
-            $qb = \app\database\DB::select('*')
+            $qb = \App\Database\DB::select('*')
                 ->from('vw_user');
 
             # Define o valor que será procurado nos três campos
@@ -87,7 +87,7 @@ final class Login extends Base
 
             # Renova o hash da senha se o algoritmo/custo padrão tiver mudado
             if (password_needs_rehash($user['senha'], PASSWORD_DEFAULT)) {
-                \app\database\DB::connection()->update(
+                \App\Database\DB::connection()->update(
                     'users',
                     [
                         'senha'         => password_hash($senha, PASSWORD_DEFAULT),
@@ -200,7 +200,7 @@ final class Login extends Base
         ];
 
         try {
-            $conn = \app\database\DB::connection();
+            $conn = \App\Database\DB::connection();
             $conn->beginTransaction();
 
             // Insere os dados no database com o Doctrine e recebe o ID do usuário criado.
@@ -301,7 +301,7 @@ final class Login extends Base
             }
 
             // Busca o usuário na vw_user pelo e-mail do Google
-            $qb = \app\database\DB::select('*')->from('vw_user');
+            $qb = \App\Database\DB::select('*')->from('vw_user');
             $qb->where('email = ' . $qb->createNamedParameter($email));
             $user = $qb->fetchAssociative();
 
