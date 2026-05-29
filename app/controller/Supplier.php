@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dontroller;
+namespace App\Controller;
 
 final class Supplier extends Base
 {
@@ -57,6 +57,7 @@ final class Supplier extends Base
             'nascimento_fundacao' => $this->parseDate($form['dataRegistro'] ?? null),
             'ativo'               => (int)(($form['ativo'] ?? '') === 'true'),
         ];
+
         try {
             $IsInserted = \App\Database\DB::connection()->insert('supplier', $FieldsAndValues);
             if (!$IsInserted) {

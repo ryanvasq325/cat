@@ -51,6 +51,8 @@ final class Product extends Base
             'descricao'         => $form['descricao'] ?? null,
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
         ];
+
+
         try {
             $IsInserted = \App\Database\DB::connection()->insert('products', $FieldsAndValues);
             if (!$IsInserted) {

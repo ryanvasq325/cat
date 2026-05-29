@@ -49,6 +49,8 @@ final class Enterprise extends Base
             'ie'           => $form['registroSecundario'] ?? null,
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
         ];
+
+
         try {
             $IsInserted = \App\Database\DB::connection()->insert('enterprise', $FieldsAndValues);
             if (!$IsInserted) {

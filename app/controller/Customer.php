@@ -50,6 +50,7 @@ final class Customer extends Base
             'nascimento_fundacao' => $this->convertBrDateToDatabaseFormat($form['dataRegistro']),
             'ativo'         => (int)(($form['ativo']         ?? '') === 'true'),
         ];
+
         try {
             $IsInserted = \App\Database\DB::connection()->insert('customer', $FieldsAndValues);
             if (!$IsInserted) {
