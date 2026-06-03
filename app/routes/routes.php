@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-$app->get('/',      App\Controller\Home::class  . ':home')->add(App\Middleware\Middleware::web());
-$app->get('/home',  App\Controller\Home::class  . ':home')->add(App\Middleware\Middleware::web());
-$app->get('/login', App\Controller\Login::class . ':login')->add(App\Middleware\Middleware::web());
+$app->get('/',      App\Controller\Home::class  . ':home');#->add(App\Middleware\Middleware::web());
+$app->get('/home',  App\Controller\Home::class  . ':home');#->add(App\Middleware\Middleware::web());
+$app->get('/login', App\Controller\Login::class . ':login');#->add(App\Middleware\Middleware::web());
 
 $app->group('/authentication', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->get('/logout', App\Controller\Login::class . ':logout');
@@ -21,7 +21,7 @@ $app->group('/cliente', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       App\Controller\Customer::class . ':update');
     $group->post('/delete',       App\Controller\Customer::class . ':delete');
     $group->post('/listingdata',  App\Controller\Customer::class . ':listingdata');
-})->add(App\Middleware\Middleware::web());
+});#->add(App\Middleware\Middleware::web());
 
 $app->group('/empresa', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->get('/lista',         App\Controller\Enterprise::class . ':list');
@@ -31,7 +31,7 @@ $app->group('/empresa', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       App\Controller\Enterprise::class . ':update');
     $group->post('/delete',       App\Controller\Enterprise::class . ':delete');
     $group->post('/listingdata',  App\Controller\Enterprise::class . ':listingdata');
-})->add(App\Middleware\Middleware::web());
+});#->add(App\Middleware\Middleware::web());
 
 $app->group('/fornecedor', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->get('/lista',         App\Controller\Supplier::class . ':list');
@@ -41,7 +41,7 @@ $app->group('/fornecedor', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       App\Controller\Supplier::class . ':update');
     $group->post('/delete',       App\Controller\Supplier::class . ':delete');
     $group->post('/listingdata',  App\Controller\Supplier::class . ':listingdata');
-})->add(App\Middleware\Middleware::web());
+});#->add(App\Middleware\Middleware::web());
 
 $app->group('/usuario', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->get('/lista',         App\Controller\Users::class . ':list');
@@ -51,7 +51,7 @@ $app->group('/usuario', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       App\Controller\Users::class . ':update');
     $group->post('/delete',       App\Controller\Users::class . ':delete');
     $group->post('/listingdata',  App\Controller\Users::class . ':listingdata');
-})->add(App\Middleware\Middleware::web());
+});#->add(App\Middleware\Middleware::web());
 
 $app->group('/produto', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->get('/lista',         App\Controller\Product::class . ':list');
@@ -61,4 +61,4 @@ $app->group('/produto', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/update',       App\Controller\Product::class . ':update');
     $group->post('/delete',       App\Controller\Product::class . ':delete');
     $group->post('/listingdata',  App\Controller\Product::class . ':listingdata');
-})->add(App\Middleware\Middleware::web());
+});#->add(App\Middleware\Middleware::web());
