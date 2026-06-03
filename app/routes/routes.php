@@ -60,5 +60,9 @@ $app->group('/produto', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/insert',       App\Controller\Product::class . ':insert');
     $group->post('/update',       App\Controller\Product::class . ':update');
     $group->post('/delete',       App\Controller\Product::class . ':delete');
+    $group->post('/getabcranking',       App\Controller\Product::class . ':getabcranking');
     $group->post('/listingdata',  App\Controller\Product::class . ':listingdata');
+});#->add(App\Middleware\Middleware::web());
+$app->group('/sale', function (Slim\Routing\RouteCollectorProxy $group) {
+    $group->get('/getsalesdata',         App\Controller\Sale::class . ':getsalesdata');
 });#->add(App\Middleware\Middleware::web());
