@@ -55,3 +55,4 @@ final class Version20260507171344 extends AbstractMigration
         // escreva aqui o rollback do up()
     }
 }
+
