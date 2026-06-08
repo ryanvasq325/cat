@@ -7,16 +7,16 @@ namespace App\Database\Migration;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20260603194042 extends AbstractMigration
+final class Version20260603195223 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'sale';
+        return 'item_sale';
     }
 
     public function up(Schema $schema): void
     {
-         $table = $schema->createTable('sale');
+       $table = $schema->createTable('sale');
 
         $table->addColumn('id',            'bigint',  ['autoincrement' => true,  'notnull' => true]);
         $table->addColumn('id_venda',      'bigint',  [ 'notnull' => true]);
@@ -40,7 +40,6 @@ final class Version20260603194042 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $schema->dropTable('sale');
+        // escreva aqui o rollback do up()
     }
 }
-

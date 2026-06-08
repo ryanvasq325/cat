@@ -64,5 +64,5 @@ $app->group('/produto', function (Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/listingdata',  App\Controller\Product::class . ':listingdata');
 });#->add(App\Middleware\Middleware::web());
 $app->group('/sale', function (Slim\Routing\RouteCollectorProxy $group) {
-    $group->get('/getsalesdata',         App\Controller\Sale::class . ':getsalesdata');
+    $group->post('/getsalesdata', App\Controller\Sale::class . ':getsalesdata');
 });#->add(App\Middleware\Middleware::web());
